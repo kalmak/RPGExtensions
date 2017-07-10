@@ -1,0 +1,24 @@
+Here are the steps to use the ground targeting system:
+1. Download the .cs file and the unitypackage. Please test import the unitypackage into a backup project so you don't lose anything.
+2. Add GroundTargetController to your player. It is a singleton so you can only have one. 
+3. Just like the enemy requires the player to be on a specific layer, the GroundTargetController requires the ground to be on a specific layer. Add a new layer (I called mine Ground), set your ground plane so that it has this layer and then add the layer to the Ground Layer variable inside the GroundTargetController
+4. In order to work, the system requires 2 items: a ground target graphic and an item to spawn when you click. 
+5. The ground target graphic should be located in Resources/GroundTarget/Graphics. There is an example in the unitypackage. I used a cylinder with a particle system to act as my graphic. The parent object must have a shape (ie mesh filter) as it uses this shape to center the graphic on the mouse. I deactivated the renderer so that the cylinder didn't show.
+6. The spawned object should be placed in Resources/GroundTarget/Objects. There is an example in the unitypackage. The object can be anything that you like.
+7. GroundTargetController has 2 functions: ShowGroundTarget and ActivateGroundTarget.  
+8. ShowGroundTarget is the one that makes the ground circle appear. It should be called when you want to activate a ground targeting skill. There is an example in the update function of GroundTargetController that shows how to use it. It requires a string. This string should be the name of your ground target graphic from inside the Resources/GroundTarget/Graphics folder.
+9. ActivateGroundTarget spawns the item you want. It also requires a string that should be the name of the object located in Resources/GroundTarget/Objects.
+10. Finally, you need to modify your WorldInteraction script. In the GetInteraction function, at the bottom modify the else clause so that it looks like this:
+
+else
+{
+    if(GroundTargetController.Instance.isGroundTargeting)
+    {
+        GroundTargetController.Instance.ActivateGroundTarget("GroundObject");
+    }
+    else
+    {
+        navAgent.stoppingDistance = 0;
+        navAgent.SetDestination(hit.point);
+    }
+}
