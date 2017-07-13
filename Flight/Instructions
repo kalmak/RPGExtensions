@@ -1,0 +1,8 @@
+Flight Controller to use with NavMeshAgent.
+
+To Use:
+1) Add Flight Controller to your GO that has your NavMeshAgent. 
+2) In the inspector, drag the mesh you wish to effect onto the Player Mesh slot. The system works best if this mesh is a child of the GO that contains the NavMeshAgent.
+3) Speed determines the speed the mesh raises and lowers to the ground.
+4) Rotation speed determines the speed the mesh rotates forward when the agent is moving.
+5) isFlying is a public bool that can be called from anywhere to make the flight occur (currently it is setup inside the Update method of the flightController and you can fly by hitting the F key).
