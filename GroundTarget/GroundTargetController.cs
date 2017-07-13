@@ -5,7 +5,7 @@ using UnityEngine;
 public class GroundTargetController : MonoBehaviour {
     public LayerMask groundLayer;
     public static GroundTargetController Instance { get; set; }
-    public bool isGroundTargeting = false;
+    public bool isGroundTargeting { get; set; }
     public GameObject GroundTargetPrefab;
     public GameObject GroundTargetObjectPrefab;
     Ray ray;
@@ -14,6 +14,7 @@ public class GroundTargetController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        isGroundTargeting = false;
         if (Instance != null && Instance != this)
             Destroy(this.gameObject);
         else
@@ -25,17 +26,16 @@ public class GroundTargetController : MonoBehaviour {
 
         if(Input.GetKeyDown(KeyCode.T))
         {
-            isGroundTargeting = !isGroundTargeting;
-            if(isGroundTargeting)
+            GroundTargetController.Instance.isGroundTargeting = !GroundTargetController.Instance.isGroundTargeting;
+            if (GroundTargetController.Instance.isGroundTargeting)
             {
-                ShowGroundTarget("PracticeTarget");
+                GroundTargetController.Instance.ShowGroundTarget("PracticeTarget");
             }
             else
             {
-                if (GroundTargetPrefab != null)
-                    Destroy(GroundTargetPrefab);
-            }
-            
+                if (GroundTargetController.Instance.GroundTargetPrefab != null)
+                    Destroy(GroundTargetController.Instance.GroundTargetPrefab);
+            }       
         }
 
         if(isGroundTargeting)
@@ -56,6 +56,7 @@ public class GroundTargetController : MonoBehaviour {
     public void ShowGroundTarget(string slug)
     {
         GroundTargetPrefab = (GameObject)Instantiate(Resources.Load<GameObject>("GroundTarget/Graphics/" + slug));
+        Debug.Log("Show Target");
         Bounds bounds = GroundTargetPrefab.GetComponent<MeshFilter>().mesh.bounds;
         xOffset = bounds.size.x / 2;
         zOffset = bounds.size.z / 2; 
